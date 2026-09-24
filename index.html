@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sustainability Index &amp; Gap Analysis</title>
+  <style>
+:root {
+  --bg: #f6f8f7; --card: #ffffff; --ink: #1d2a26; --muted: #5f6f69; --line: #d9e1de;
+  --brand: #1f7a5a; --brand-ink: #ffffff; --head: #e8f1ed;
+  --pos: #2563eb; --neg: #dc2626;
+  --A: #16a34a; --P: #d97706; --X: #dc2626;
+  --er: #2563eb; --ee: #ea580c;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111715; --card: #1a2320; --ink: #e5ece9; --muted: #9aaba4; --line: #2e3b37;
+    --brand: #3fb489; --brand-ink: #08130f; --head: #22302b;
+    --pos: #60a5fa; --neg: #f87171;
+    --A: #4ade80; --P: #fbbf24; --X: #f87171;
+    --er: #60a5fa; --ee: #fb923c;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.5; }
+h1 { font-size: 1.35rem; margin: 0; }
+h2 { font-size: 1.2rem; margin: 0 0 .75rem; }
+h3 { font-size: 1rem; margin: 1.5rem 0 .6rem; }
+.sub, .muted { color: var(--muted); }
+.small { font-size: .82rem; font-weight: 400; }
+
+.top { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; background: var(--card); border-bottom: 1px solid var(--line); }
+.sub { margin: .25rem 0 0; font-size: .88rem; }
+.actions { display: flex; flex-wrap: wrap; gap: .4rem; }
+.btn { cursor: pointer; border: 1px solid var(--brand); background: var(--brand); color: var(--brand-ink); padding: .4rem .75rem; border-radius: 6px; font-size: .85rem; font-family: inherit; }
+.btn.ghost { background: transparent; color: var(--brand); }
+.btn:hover { filter: brightness(1.08); }
+
+.tabs { display: flex; gap: .25rem; overflow-x: auto; padding: .5rem 1.25rem 0; background: var(--card); border-bottom: 1px solid var(--line); }
+.tabs button { border: 0; background: none; padding: .6rem .9rem; cursor: pointer; color: var(--muted); border-bottom: 3px solid transparent; white-space: nowrap; font: inherit; font-size: .9rem; }
+.tabs button.active { color: var(--brand); border-color: var(--brand); font-weight: 600; }
+
+main { padding: 1.25rem; max-width: 1400px; margin: 0 auto; }
+.panel { display: none; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; }
+.panel.active { display: block; }
+.scroll { overflow-x: auto; }
+
+table.grid { border-collapse: collapse; width: 100%; font-size: .85rem; }
+.grid th, .grid td { border: 1px solid var(--line); padding: .35rem .5rem; text-align: center; }
+.grid th { background: var(--head); font-weight: 600; }
+.grid td.lbl, .grid th.lbl { text-align: left; min-width: 260px; }
+.grid tr.theme td { background: var(--head); font-weight: 700; text-align: left; letter-spacing: .02em; }
+.grid tr.total td { font-weight: 700; }
+.grid tr.fix td { font-weight: 700; color: var(--brand); }
+.grid input.name { width: 100%; min-width: 120px; border: 1px solid var(--line); border-radius: 4px; padding: .25rem; background: var(--card); color: var(--ink); font: inherit; font-weight: 600; text-align: center; }
+.grid select { border: 1px solid var(--line); border-radius: 4px; padding: .15rem; font-weight: 700; background: var(--card); color: var(--ink); font-family: inherit; }
+.grid select.A { color: var(--A); border-color: var(--A); }
+.grid select.P { color: var(--P); border-color: var(--P); }
+.grid select.X { color: var(--X); border-color: var(--X); }
+.grid td.best { outline: 2px solid var(--brand); outline-offset: -2px; font-weight: 700; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .75rem; margin-bottom: 1rem; }
+.card { border: 1px solid var(--line); border-radius: 8px; padding: .8rem 1rem; background: var(--bg); }
+.card h4 { margin: 0 0 .3rem; font-size: .95rem; }
+.card .big { font-size: 1.6rem; font-weight: 700; }
+.card .tag { display: inline-block; padding: .1rem .5rem; border-radius: 99px; background: var(--brand); color: var(--brand-ink); font-size: .75rem; font-weight: 600; }
+.card p { margin: .35rem 0 0; font-size: .88rem; }
+
+.chip { display: inline-block; width: 1.6rem; text-align: center; border-radius: 4px; color: #fff; font-weight: 700; margin-right: .4rem; }
+.chip.A { background: var(--A); } .chip.P { background: var(--P); } .chip.X { background: var(--X); }
+.key { list-style: none; padding: 0; } .key li { margin: .3rem 0; }
+.steps li { margin: .3rem 0; }
+.legend { padding: 0 .35rem; border-radius: 3px; color: #fff; }
+.legend.pos { background: var(--pos); } .legend.neg { background: var(--neg); }
+
+.radar-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem; }
+.radar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+.radar-box { border: 1px solid var(--line); border-radius: 8px; padding: .6rem; background: var(--bg); }
+.radar-box h4 { margin: 0 0 .3rem; font-size: .9rem; text-align: center; }
+.radar-box svg { width: 100%; height: auto; display: block; }
+.lgd { display: flex; flex-wrap: wrap; gap: .3rem .8rem; justify-content: center; font-size: .75rem; }
+.lgd span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; background: var(--c); vertical-align: middle; }
+svg text { fill: var(--muted); font-family: inherit; }
+svg .gridline { stroke: var(--line); fill: none; }
+
+footer { text-align: center; padding: 1rem; }
+
+@media (max-width: 640px) {
+  main { padding: .75rem; } .panel { padding: .8rem; }
+  .grid td.lbl, .grid th.lbl { min-width: 180px; }
+}
+@media print {
+  .actions, .tabs, footer { display: none; }
+  .panel { display: block !important; break-after: page; border: 0; }
+}
+
+</style>
+  <!-- SheetJS: only used for importing the original .xlsx template -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  </head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Sustainability Maturity &amp; Employer–Employee Alignment</h1>
+      <p class="sub">Cross-company Sustainable HRM audit · up to 10 manufacturing firms · 16 indicators · A = 1, P = 0.5, X = 0</p>
+    </div>
+    <div class="actions">
+      <label class="btn">Import .xlsx<input type="file" id="fileXlsx" accept=".xlsx" hidden /></label>
+      <label class="btn">Load JSON<input type="file" id="fileJson" accept=".json" hidden /></label>
+      <button class="btn" id="btnSaveJson">Save JSON</button>
+      <button class="btn" id="btnCsv">Export CSV</button>
+      <button class="btn" id="btnPrint">Print / PDF</button>
+      <button class="btn ghost" id="btnSample">Load sample</button>
+      <button class="btn ghost" id="btnClear">Clear all</button>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="guide">1. Guide</button>
+    <button data-tab="entry" class="active">2. Data Entry</button>
+    <button data-tab="comparison">3. Comparison</button>
+    <button data-tab="spider">4. Spider Charts</button>
+    <button data-tab="gap">5. Gap Analysis</button>
+    <button data-tab="pillar">6. Pillar Gap &amp; Action</button>
+  </nav>
+
+  <main>
+    <section id="guide" class="panel">
+      <h2>How this audit works</h2>
+      <p>Each firm's corporate sustainability policy (waste reduction, energy efficiency, circular practices) is audited from <b>two sides</b>: the <b>Employer</b> (management, ER) view and the <b>Employee</b> (floor, EE) view. Where the two views disagree is an audit finding — a perception gap showing where policy is not reaching the floor.</p>
+      <ol class="steps">
+        <li><b>Data Entry</b> — name each firm and choose A / P / X for ER and EE on every indicator. This is the only tab you edit.</li>
+        <li><b>Scoring</b> — A = Achieved (1), P = Partial (0.5), X = Not achieved (0).</li>
+        <li><b>Comparison</b> — ranks firms on total score, alignment %, maturity stage (1–7) and alignment gap.</li>
+        <li><b>Spider Charts</b> — ER vs EE web per firm, and cross-company overlays.</li>
+        <li><b>Gap Analysis</b> — signed gap (ER − EE) per indicator and firm, colour-coded.</li>
+        <li><b>Four-Pillar Diagnosis</b> — Knowledge, Incentive, Resource, Value; flags the “Fix First” pillar.</li>
+        <li><b>Strategy &amp; Action</b> — apply the action matched to the flagged pillar.</li>
+      </ol>
+      <h3>The four gap pillars</h3>
+      <div id="pillarDefs" class="cards"></div>
+      <h3>Scoring key</h3>
+      <ul class="key">
+        <li><span class="chip A">A</span> Achieved / Aligned — fully in place; intent &amp; practice evidenced</li>
+        <li><span class="chip P">P</span> Partial — exists but inconsistent; policy–practice gap</li>
+        <li><span class="chip X">X</span> Not achieved — absent or clear contradiction</li>
+      </ul>
+      <p class="muted">Tip: leave a firm blank if you assess fewer than 10 firms — blanks are ignored everywhere.</p>
+    </section>
+
+    <section id="entry" class="panel active">
+      <h2>Data Entry <span class="muted small">ER = Employer view · EE = Employee view</span></h2>
+      <div class="scroll"><table id="entryTable" class="grid"></table></div>
+    </section>
+
+    <section id="comparison" class="panel">
+      <h2>Cross-Company Comparison</h2>
+      <div id="kpis" class="cards"></div>
+      <div class="scroll"><table id="compTable" class="grid num"></table></div>
+      <h3>Alignment % by firm</h3>
+      <div id="barChart"></div>
+    </section>
+
+    <section id="spider" class="panel">
+      <h2>Spider Profiles</h2>
+      <h3>Cross-company overlay</h3>
+      <div class="radar-row" id="crossRadars"></div>
+      <h3>Employer vs Employee — one web per firm</h3>
+      <div class="radar-grid" id="firmRadars"></div>
+    </section>
+
+    <section id="gap" class="panel">
+      <h2>Employer – Employee Perception Gap</h2>
+      <p class="muted">Signed gap = ER − EE. <span class="legend pos">Positive</span> = management rates higher (optimism gap). <span class="legend neg">Negative</span> = employees rate higher. 0 = aligned.</p>
+      <div class="scroll"><table id="gapTable" class="grid num"></table></div>
+    </section>
+
+    <section id="pillar" class="panel">
+      <h2>Four-Pillar Perception Gap — Strategy &amp; Action</h2>
+      <p class="muted">Pillar score = average |ER − EE| across its 4 indicators. Higher = wider misalignment. “Fix First” = widest pillar.</p>
+      <div class="scroll"><table id="pillarTable" class="grid num"></table></div>
+      <h3>Action plan per firm</h3>
+      <div id="actionCards" class="cards"></div>
+    </section>
+  </main>
+
+  <footer class="muted small">Data stays in your browser (localStorage). Built with HTML, CSS &amp; vanilla JavaScript.</footer>
+<script>
+/* Cross-Firm Sustainability Index with Gap Analysis — vanilla JavaScript */
+"use strict";
+
+/* ---------- 1. MODEL ---------- */
+const N_FIRMS = 10;
+const STORE_KEY = "sustainIndex.v1";
+
+const THEMES = [
+  { name: "SUSTAINABILITY REPORTING & ENGAGEMENT", short: "Reporting & Transparency", items: [1, 2, 3, 4] },
+  { name: "STRATEGIC GOVERNANCE", short: "Strategic Governance", items: [5, 6, 7, 8] },
+  { name: "INTERNAL SHRM CULTURE", short: "SHRM Culture", items: [9, 10, 11, 12, 13] },
+  { name: "TRAINING", short: "Training Quality", items: [14, 15, 16] },
+];
+
+const INDICATORS = [
+  null,
+  { full: "Sustainability report read & understood by employees", short: "Report" },
+  { full: "Consistent monitoring across all levels", short: "Monitoring" },
+  { full: "Standardised terminology (CSR/ESG/Sustainability)", short: "Terminology" },
+  { full: "Data accuracy & credibility in reports", short: "Data acc." },
+  { full: "Sustainability KPIs linked to employee performance", short: "KPIs" },
+  { full: "Sustainability prioritised over short-term profit", short: "Profit not 1st" },
+  { full: "Employer & employee aligned on initiatives", short: "Aligned init." },
+  { full: "Net zero / emission-reduction target implemented", short: "Net-zero" },
+  { full: "Sustainability embedded in organisational culture", short: "Culture" },
+  { full: "Equal & transparent reward distribution", short: "Rewards" },
+  { full: "High & consistent CSR participation rate", short: "CSR partic." },
+  { full: "Triple Bottom Line balanced (people, planet, profit)", short: "TBL" },
+  { full: "Green HRM adopted AND practised", short: "Green HRM" },
+  { full: "Integrated training (environment + safety)", short: "Int. training" },
+  { full: "Employee buy-in for sustainability training", short: "Buy-in" },
+  { full: "Contractor sustainability compliance & oversight", short: "Contractor" },
+];
+
+const PILLARS = [
+  { name: "Knowledge Gap", items: [1, 3, 9, 15],
+    desc: "Management's understanding of policy vs. floor workers' actual training and literacy on sustainability protocols.",
+    action: "Run floor-level sustainability literacy training; translate policy into shop-floor language; verify comprehension, not just circulation of the report." },
+  { name: "Incentive Gap", items: [5, 6, 10, 12],
+    desc: "Whether sustainability targets are tied to floor-manager/operator KPIs and pay, or people are judged on production speed alone.",
+    action: "Tie sustainability targets to operator/line-manager KPIs and reward; stop evaluating on production speed alone; make green performance count in appraisals." },
+  { name: "Resource Gap", items: [4, 8, 14, 16],
+    desc: "Perceived budget/tool allocation vs. employees' actual access to green machinery, recycling streams and safe waste-disposal tools.",
+    action: "Audit actual floor access to green machinery, recycling streams and safe-disposal tools; close the gap between budgeted and available resources." },
+  { name: "Value Gap", items: [2, 7, 11, 13],
+    desc: "Friction between personal values and corporate requirements (e.g. forced into high-scrap, fast-output legacy methods).",
+    action: "Remove the conflict between doing the right thing and hitting output targets; redesign high-scrap legacy workflows so sustainable choices are the easy default." },
+];
+
+const FIRM_COLORS = ["#2563eb", "#ea580c", "#16a34a", "#9333ea", "#db2777", "#0891b2", "#ca8a04", "#4f46e5", "#65a30d", "#78716c"];
+
+// Sample data from the uploaded workbook (ER+EE pairs for indicators 1..16)
+const SAMPLE = {
+  names: ["Firm A (Polyplastics)", "Firm B (PETRONAS)", "Firm C (TT Electronics)"],
+  codes: [
+    "PX PP PX PP PP PP PX PP PX PP PP PP PP PP PX PP",
+    "PP PP PP AP PX PX PP AP PP AP PP PX PP AP PP PX",
+    "PP AP AP AP PP AP PP AA PP PP PP AP AP AP PP AP",
+  ],
+};
+
+let state = emptyState();
+
+function emptyState() {
+  return {
+    names: Array.from({ length: N_FIRMS }, (_, i) => `Company ${i + 1}`),
+    // data[firm][indicator 1..16] = { er: "A"|"P"|"X"|"", ee: ... }
+    data: Array.from({ length: N_FIRMS }, () => Array.from({ length: 17 }, () => ({ er: "", ee: "" }))),
+  };
+}
+
+function sampleState() {
+  const s = emptyState();
+  SAMPLE.names.forEach((n, f) => {
+    s.names[f] = n;
+    SAMPLE.codes[f].split(" ").forEach((pair, k) => { s.data[f][k + 1] = { er: pair[0], ee: pair[1] }; });
+  });
+  return s;
+}
+
+/* ---------- 2. CALCULATIONS (mirror the Excel formulas) ---------- */
+const val = (r) => (r === "A" ? 1 : r === "P" ? 0.5 : 0);
+const ALL = Array.from({ length: 16 }, (_, i) => i + 1);
+
+function firmMetrics(f) {
+  const d = state.data[f];
+  const indScore = {}, gap = {};
+  let total = 0, gapCount = 0, filled = 0;
+  for (const k of ALL) {
+    const { er, ee } = d[k];
+    indScore[k] = (val(er) + val(ee)) / 2;
+    total += indScore[k];
+    if (er) filled++;
+    if (er && ee && er !== ee) gapCount++;
+    gap[k] = er && ee ? val(er) - val(ee) : null;
+  }
+  const alignPct = total / 16;
+  const stage = total === 0 ? 0 : Math.round(1 + alignPct * 6);
+  const themes = THEMES.map((t) => t.items.reduce((s, k) => s + indScore[k], 0) / t.items.length);
+
+  const gaps = ALL.map((k) => gap[k]).filter((g) => g !== null);
+  const netGap = gaps.reduce((s, g) => s + g, 0);
+  const magnitude = gaps.reduce((s, g) => s + Math.abs(g), 0);
+  const misaligned = gaps.filter((g) => g !== 0).length;
+
+  const pillars = PILLARS.map((p) => {
+    const g = p.items.map((k) => gap[k]).filter((x) => x !== null);
+    return g.length ? g.reduce((s, x) => s + Math.abs(x), 0) / g.length : null;
+  });
+  let fixIdx = -1;
+  pillars.forEach((v, i) => { if (v !== null && (fixIdx < 0 || v > pillars[fixIdx])) fixIdx = i; });
+
+  return {
+    name: state.names[f], active: filled > 0 || d.some((c) => c && c.ee),
+    indScore, gap, total, alignPct, stage, gapCount, filled, themes,
+    netGap, magnitude, misaligned, avgGap: gaps.length ? magnitude / 16 : null,
+    pillars, fixIdx,
+    er: ALL.map((k) => val(d[k].er)), ee: ALL.map((k) => val(d[k].ee)),
+  };
+}
+
+function computeAll() {
+  const m = Array.from({ length: N_FIRMS }, (_, f) => firmMetrics(f));
+  const ranked = m.filter((x) => x.filled > 0).map((x) => x.alignPct);
+  m.forEach((x) => { x.rank = x.filled > 0 ? 1 + ranked.filter((v) => v > x.alignPct).length : "-"; });
+  return m;
+}
+
+/* ---------- 3. HELPERS ---------- */
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = (v, d = 2) => (v === null || v === undefined || v === "" ? "" : typeof v === "number" ? +v.toFixed(d) + "" : v);
+const pct = (v) => (v * 100).toFixed(1) + "%";
+
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* ignore */ } }
+function load() {
+  try { const s = JSON.parse(localStorage.getItem(STORE_KEY)); if (s && s.names && s.data) return s; } catch (e) { /* ignore */ }
+  return null;
+}
+
+function download(name, text, type) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* ---------- 4. RENDER: DATA ENTRY ---------- */
+function renderEntry() {
+  let h = `<thead><tr><th class="lbl" rowspan="2">#  Sustainability Indicator</th>`;
+  for (let f = 0; f < N_FIRMS; f++) h += `<th colspan="2"><input class="name" data-f="${f}" value="${esc(state.names[f])}"></th>`;
+  h += `</tr><tr>` + "<th>ER</th><th>EE</th>".repeat(N_FIRMS) + `</tr></thead><tbody>`;
+  for (const t of THEMES) {
+    h += `<tr class="theme"><td colspan="${1 + N_FIRMS * 2}">${t.name}</td></tr>`;
+    for (const k of t.items) {
+      h += `<tr><td class="lbl">${k}. ${INDICATORS[k].full}</td>`;
+      for (let f = 0; f < N_FIRMS; f++) for (const side of ["er", "ee"]) {
+        const v = state.data[f][k][side];
+        h += `<td><select class="${v}" data-f="${f}" data-k="${k}" data-s="${side}">` +
+          ["", "A", "P", "X"].map((o) => `<option ${o === v ? "selected" : ""}>${o}</option>`).join("") +
+          `</select></td>`;
+      }
+      h += `</tr>`;
+    }
+  }
+  $("#entryTable").innerHTML = h + "</tbody>";
+}
+
+/* ---------- 5. RENDER: COMPARISON ---------- */
+function renderComparison(M) {
+  const act = M.filter((m) => m.filled > 0);
+  const best = act.length ? act.reduce((a, b) => (b.alignPct > a.alignPct ? b : a)) : null;
+  const avg = act.length ? act.reduce((s, m) => s + m.alignPct, 0) / act.length : 0;
+  $("#kpis").innerHTML = `
+    <div class="card"><h4>Firms assessed</h4><div class="big">${act.length}</div></div>
+    <div class="card"><h4>Leader</h4><div class="big">${best ? esc(best.name) : "-"}</div><p>${best ? pct(best.alignPct) + " · Stage " + best.stage : ""}</p></div>
+    <div class="card"><h4>Sector average</h4><div class="big">${pct(avg)}</div></div>`;
+
+  const rows = [
+    ["Total score (/16)", (m) => fmt(m.total)],
+    ["Alignment %", (m) => pct(m.alignPct)],
+    ["Maturity stage (1-7)", (m) => m.stage],
+    ["Alignment gap (# diff)", (m) => m.gapCount],
+    ["Indicators filled", (m) => m.filled],
+    ["Rank (by alignment %)", (m) => m.rank],
+  ];
+  let h = `<thead><tr><th class="lbl">Metric</th>${M.map((m) => `<th>${esc(m.name)}</th>`).join("")}</tr></thead><tbody>`;
+  rows.forEach(([lbl, fn]) => {
+    h += `<tr><td class="lbl">${lbl}</td>${M.map((m) => `<td class="${lbl.startsWith("Rank") && m.rank === 1 ? "best" : ""}">${fn(m)}</td>`).join("")}</tr>`;
+  });
+  h += `<tr class="theme"><td colspan="${N_FIRMS + 1}">THEME DIMENSION SCORES (0-1)</td></tr>`;
+  THEMES.forEach((t, i) => { h += `<tr><td class="lbl">${t.short}</td>${M.map((m) => `<td>${fmt(m.themes[i], 3)}</td>`).join("")}</tr>`; });
+  $("#compTable").innerHTML = h + "</tbody>";
+  $("#barChart").innerHTML = barChart(act);
+}
+
+function barChart(list) {
+  if (!list.length) return `<p class="muted">No data yet.</p>`;
+  const rowH = 30, W = 720, L = 190, R = 60, H = list.length * rowH + 30;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Alignment % by firm" style="max-width:${W}px;width:100%">`;
+  [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+    const x = L + t * (W - L - R);
+    s += `<line class="gridline" x1="${x}" y1="0" x2="${x}" y2="${H - 20}"/><text x="${x}" y="${H - 5}" font-size="11" text-anchor="middle">${t * 100}%</text>`;
+  });
+  list.forEach((m, i) => {
+    const y = i * rowH + 5, w = m.alignPct * (W - L - R), c = FIRM_COLORS[state.names.indexOf(m.name) % 10];
+    s += `<text x="${L - 8}" y="${y + 16}" font-size="12" text-anchor="end">${esc(m.name)}</text>
+      <rect x="${L}" y="${y}" width="${w}" height="${rowH - 10}" rx="3" fill="${c}"/>
+      <text x="${L + w + 6}" y="${y + 15}" font-size="12">${pct(m.alignPct)}</text>`;
+  });
+  return s + "</svg>";
+}
+
+/* ---------- 6. RENDER: RADAR (pure SVG) ---------- */
+function radar(labels, series, size = 360) {
+  const cx = size / 2, cy = size / 2, r = size / 2 - 48, n = labels.length;
+  const pt = (i, v) => {
+    const a = -Math.PI / 2 + (2 * Math.PI * i) / n;
+    return [cx + Math.cos(a) * r * v, cy + Math.sin(a) * r * v];
+  };
+  let s = `<svg viewBox="-70 -6 ${size + 140} ${size + 12}" role="img">`;
+  [0.25, 0.5, 0.75, 1].forEach((lv) => {
+    s += `<polygon class="gridline" points="${labels.map((_, i) => pt(i, lv).join(",")).join(" ")}"/>`;
+  });
+  labels.forEach((lb, i) => {
+    const [x, y] = pt(i, 1), [lx, ly] = pt(i, 1.17);
+    const anchor = Math.abs(lx - cx) < 8 ? "middle" : lx > cx ? "start" : "end";
+    s += `<line class="gridline" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"/>
+      <text x="${lx}" y="${ly + 3}" font-size="9.5" text-anchor="${anchor}">${esc(lb)}</text>`;
+  });
+  ["0.5", "1"].forEach((t) => { s += `<text x="${cx + 3}" y="${cy - r * +t + 10}" font-size="8">${t}</text>`; });
+  series.forEach((se) => {
+    const pts = se.values.map((v, i) => pt(i, v).join(",")).join(" ");
+    s += `<polygon points="${pts}" fill="${se.color}" fill-opacity="0.12" stroke="${se.color}" stroke-width="2"/>`;
+    se.values.forEach((v, i) => { const [x, y] = pt(i, v); s += `<circle cx="${x}" cy="${y}" r="2.5" fill="${se.color}"><title>${esc(se.name)} · ${labels[i]}: ${v}</title></circle>`; });
+  });
+  s += `</svg><div class="lgd">${series.map((se) => `<span style="--c:${se.color}">${esc(se.name)}</span>`).join("")}</div>`;
+  return s;
+}
+
+function renderSpider(M) {
+  const labels = ALL.map((k) => `${k}. ${INDICATORS[k].short}`);
+  const act = M.map((m, f) => ({ ...m, color: FIRM_COLORS[f] })).filter((m) => m.filled > 0);
+  const cross = (side, title) => `<div class="radar-box"><h4>${title}</h4>${
+    act.length ? radar(labels, act.map((m) => ({ name: m.name, color: m.color, values: m[side] })), 420) : '<p class="muted">No data.</p>'}</div>`;
+  $("#crossRadars").innerHTML = cross("er", "EMPLOYER (management) view — all firms") + cross("ee", "EMPLOYEE (floor) view — all firms");
+
+  const css = getComputedStyle(document.documentElement);
+  const cEr = css.getPropertyValue("--er").trim(), cEe = css.getPropertyValue("--ee").trim();
+  $("#firmRadars").innerHTML = M.map((m) => `<div class="radar-box"><h4>${esc(m.name)}${m.filled ? ` · Stage ${m.stage}` : ""}</h4>${
+    radar(labels, m.filled ? [{ name: "Employer (ER)", color: cEr, values: m.er }, { name: "Employee (EE)", color: cEe, values: m.ee }] : [], 340)}</div>`).join("");
+}
+
+/* ---------- 7. RENDER: GAP ANALYSIS ---------- */
+function gapCell(g) {
+  if (g === null) return `<td></td>`;
+  if (g === 0) return `<td>0</td>`;
+  const a = Math.min(1, Math.abs(g)) * 0.75 + 0.15;
+  const c = g > 0 ? `rgba(37,99,235,${a})` : `rgba(220,38,38,${a})`;
+  return `<td style="background:${c};color:#fff;font-weight:700">${g > 0 ? "+" : ""}${g}</td>`;
+}
+
+function renderGap(M) {
+  let h = `<thead><tr><th class="lbl">Indicator</th>${M.map((m) => `<th>${esc(m.name)}</th>`).join("")}</tr></thead><tbody>`;
+  THEMES.forEach((t) => {
+    h += `<tr class="theme"><td colspan="${N_FIRMS + 1}">${t.short.toUpperCase()}</td></tr>`;
+    t.items.forEach((k) => { h += `<tr><td class="lbl">${k}. ${INDICATORS[k].short}</td>${M.map((m) => gapCell(m.gap[k])).join("")}</tr>`; });
+  });
+  h += `<tr class="theme"><td colspan="${N_FIRMS + 1}">FIRM-LEVEL GAP SUMMARY</td></tr>`;
+  const has = (m) => m.avgGap !== null;
+  [
+    ["Net gap (Σ ER−EE)", (m) => fmt(m.netGap)],
+    ["Total gap magnitude (Σ|diff|)", (m) => fmt(m.magnitude)],
+    ["# Indicators misaligned (of 16)", (m) => m.misaligned],
+    ["Avg |gap| per indicator", (m) => fmt(m.avgGap, 3)],
+  ].forEach(([l, fn]) => { h += `<tr class="total"><td class="lbl">${l}</td>${M.map((m) => `<td>${has(m) ? fn(m) : ""}</td>`).join("")}</tr>`; });
+  $("#gapTable").innerHTML = h + "</tbody>";
+}
+
+/* ---------- 8. RENDER: PILLAR ---------- */
+function renderPillar(M) {
+  let h = `<thead><tr><th class="lbl">Pillar / Indicator</th>${M.map((m) => `<th>${esc(m.name)}</th>`).join("")}</tr></thead><tbody>`;
+  PILLARS.forEach((p, pi) => {
+    h += `<tr class="theme"><td colspan="${N_FIRMS + 1}">${p.name.toUpperCase()} — ${p.desc}</td></tr>`;
+    p.items.forEach((k) => { h += `<tr><td class="lbl">&nbsp;&nbsp;${k}. ${INDICATORS[k].full}</td>${M.map((m) => gapCell(m.gap[k])).join("")}</tr>`; });
+    h += `<tr class="total"><td class="lbl">${p.name} — avg |gap|</td>${M.map((m) => `<td>${fmt(m.pillars[pi], 3)}</td>`).join("")}</tr>`;
+  });
+  h += `<tr class="theme"><td colspan="${N_FIRMS + 1}">PILLAR SCORECARD (higher = worse alignment)</td></tr>`;
+  PILLARS.forEach((p, pi) => {
+    h += `<tr><td class="lbl">${p.name}</td>${M.map((m) => `<td class="${m.fixIdx === pi ? "best" : ""}">${fmt(m.pillars[pi], 3)}</td>`).join("")}</tr>`;
+  });
+  h += `<tr class="fix"><td class="lbl">▶ FIX FIRST (widest gap)</td>${M.map((m) => `<td>${m.fixIdx >= 0 ? PILLARS[m.fixIdx].name : ""}</td>`).join("")}</tr>`;
+  h += `<tr><td class="lbl">widest gap value</td>${M.map((m) => `<td>${m.fixIdx >= 0 ? fmt(m.pillars[m.fixIdx], 3) : ""}</td>`).join("")}</tr>`;
+  $("#pillarTable").innerHTML = h + "</tbody>";
+
+  const act = M.filter((m) => m.fixIdx >= 0);
+  $("#actionCards").innerHTML = act.length ? act.map((m) => {
+    const p = PILLARS[m.fixIdx];
+    const aligned = m.pillars[m.fixIdx] === 0;
+    return `<div class="card"><h4>${esc(m.name)}</h4>
+      <span class="tag">${aligned ? "All pillars aligned" : "Fix first: " + p.name}</span>
+      <p><b>Gap:</b> ${fmt(m.pillars[m.fixIdx], 3)} · <b>Stage:</b> ${m.stage} · <b>Alignment:</b> ${pct(m.alignPct)}</p>
+      <p>${aligned ? "Employer and employee views fully agree. Maintain current practice and re-audit periodically." : "<b>Action:</b> " + p.action}</p></div>`;
+  }).join("") : `<p class="muted">No data yet.</p>`;
+}
+
+/* ---------- 9. EXPORT / IMPORT ---------- */
+function exportCsv() {
+  const M = computeAll();
+  const q = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const lines = [["Metric", ...M.map((m) => m.name)]];
+  lines.push(["Total score (/16)", ...M.map((m) => fmt(m.total, 4))]);
+  lines.push(["Alignment %", ...M.map((m) => fmt(m.alignPct, 4))]);
+  lines.push(["Maturity stage (1-7)", ...M.map((m) => m.stage)]);
+  lines.push(["Alignment gap (# diff)", ...M.map((m) => m.gapCount)]);
+  lines.push(["Rank", ...M.map((m) => m.rank)]);
+  THEMES.forEach((t, i) => lines.push([t.short, ...M.map((m) => fmt(m.themes[i], 4))]));
+  ALL.forEach((k) => lines.push([`Gap ${k}. ${INDICATORS[k].short}`, ...M.map((m) => fmt(m.gap[k]))]));
+  PILLARS.forEach((p, i) => lines.push([p.name + " avg |gap|", ...M.map((m) => fmt(m.pillars[i], 4))]));
+  lines.push(["Fix first", ...M.map((m) => (m.fixIdx >= 0 ? PILLARS[m.fixIdx].name : ""))]);
+  download("sustainability_results.csv", "﻿" + lines.map((r) => r.map(q).join(",")).join("\n"), "text/csv");
+}
+
+function importXlsx(file) {
+  if (typeof XLSX === "undefined") return alert("Excel reader not loaded — check your internet connection.");
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const wb = XLSX.read(e.target.result, { type: "array" });
+      const ws = wb.Sheets["Data Entry"];
+      if (!ws) throw new Error("Sheet 'Data Entry' not found.");
+      const s = emptyState();
+      const col = (c) => XLSX.utils.encode_col(c);
+      const cell = (c, r) => { const v = ws[col(c) + r]; return v ? String(v.v).trim().toUpperCase() : ""; };
+      // Row numbers in the template for indicators 1..16 (theme header rows skipped)
+      const rows = [7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 20, 21, 23, 24, 25];
+      for (let f = 0; f < N_FIRMS; f++) {
+        const c = 3 + f * 2; // column D = index 3
+        const nm = ws[col(c) + 4]; if (nm && nm.v) s.names[f] = String(nm.v);
+        rows.forEach((r, i) => {
+          const er = cell(c, r), ee = cell(c + 1, r);
+          s.data[f][i + 1] = { er: "APX".includes(er) && er ? er : "", ee: "APX".includes(ee) && ee ? ee : "" };
+        });
+      }
+      state = s; save(); renderAll();
+    } catch (err) { alert("Import failed: " + err.message); }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function importJson(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const s = JSON.parse(e.target.result);
+      if (!s.names || !s.data) throw new Error("Invalid file.");
+      state = s; save(); renderAll();
+    } catch (err) { alert("Load failed: " + err.message); }
+  };
+  reader.readAsText(file);
+}
+
+/* ---------- 10. WIRING ---------- */
+function renderResults() {
+  const M = computeAll();
+  renderComparison(M); renderSpider(M); renderGap(M); renderPillar(M);
+}
+function renderAll() { renderEntry(); renderResults(); }
+
+function init() {
+  $("#pillarDefs").innerHTML = PILLARS.map((p) =>
+    `<div class="card"><h4>${p.name}</h4><p>${p.desc}</p><p class="muted small">Indicators: ${p.items.join(", ")}</p></div>`).join("");
+
+  $("#tabs").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
+    document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("active", p.id === b.dataset.tab));
+  });
+
+  $("#entryTable").addEventListener("change", (e) => {
+    const t = e.target;
+    if (t.tagName === "SELECT") { state.data[t.dataset.f][t.dataset.k][t.dataset.s] = t.value; t.className = t.value; }
+    save(); renderResults();
+  });
+  $("#entryTable").addEventListener("input", (e) => {
+    if (e.target.classList.contains("name")) { state.names[e.target.dataset.f] = e.target.value || `Company ${+e.target.dataset.f + 1}`; save(); renderResults(); }
+  });
+
+  $("#fileXlsx").addEventListener("change", (e) => { if (e.target.files[0]) importXlsx(e.target.files[0]); e.target.value = ""; });
+  $("#fileJson").addEventListener("change", (e) => { if (e.target.files[0]) importJson(e.target.files[0]); e.target.value = ""; });
+  $("#btnSaveJson").onclick = () => download("sustainability_audit.json", JSON.stringify(state, null, 1), "application/json");
+  $("#btnCsv").onclick = exportCsv;
+  $("#btnPrint").onclick = () => window.print();
+  $("#btnSample").onclick = () => { if (confirm("Replace current data with the sample data?")) { state = sampleState(); save(); renderAll(); } };
+  $("#btnClear").onclick = () => { if (confirm("Clear all data?")) { state = emptyState(); save(); renderAll(); } };
+
+  state = load() || sampleState();
+  renderAll();
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+</script>
+</body>
+</html>
