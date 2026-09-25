@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Team &amp; Contact · SHRMEA</title>
+<meta name="description" content="The SHRMEA research team and contact details." />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f6b45'/%3E%3Cpath d='M7 25C7 14 13 7 26 7c0 12-7 19-17 19' fill='%23a8cf8e'/%3E%3C/svg%3E" />
+</head>
+<body data-page="team">
+
+<section class="hero small">
+  <div class="wrap">
+    <span class="eyebrow">Team &amp; contact</span>
+    <h1>The research team</h1>
+    <p class="lead">SHRMEA was developed at the Faculty of Industrial Management, Universiti Malaysia Pahang Al-Sultan Abdullah (UMPSA), with the lead researcher based at Kolej Poly-Tech MARA Kuantan.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="grid g3 overlap">
+      <div class="card person reveal">
+        <div class="avatar">AH</div>
+        <div class="role">Lead researcher</div>
+        <h3 style="margin:.4rem 0 0">Ahmad Hafizi bin Ahmad Giran</h3>
+        <p class="aff">Pensyarah Kanan<br>Jabatan Pengurusan Perniagaan dan Perakauan<br>Kolej Poly-Tech MARA Kuantan</p>
+        <a class="mail" href="mailto:hafizi@kptm.edu.my"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>hafizi@kptm.edu.my</a>
+      </div>
+      <div class="card person reveal">
+        <div class="avatar" style="--c1:#b8772a;--c2:#e0a33a">PF</div>
+        <div class="role">Main supervisor</div>
+        <h3 style="margin:.4rem 0 0">Assoc. Prof. Dr. Puteri Fadzline binti Muhamad Tamyez</h3>
+        <p class="aff">Faculty of Industrial Management<br>Universiti Malaysia Pahang Al-Sultan Abdullah</p>
+        <a class="mail" href="mailto:fadzline@umpsa.edu.my"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>fadzline@umpsa.edu.my</a>
+      </div>
+      <div class="card person reveal">
+        <div class="avatar" style="--c1:#2b5f86;--c2:#3a78a8">MA</div>
+        <div class="role">Co-supervisor</div>
+        <h3 style="margin:.4rem 0 0">Assoc. Prof. Ts. Dr. Muhammad Ashraf bin Fauri @ Fauzi</h3>
+        <p class="aff">Faculty of Industrial Management<br>Universiti Malaysia Pahang Al-Sultan Abdullah</p>
+        <a class="mail" href="mailto:ashraf@umpsa.edu.my"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>ashraf@umpsa.edu.my</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block alt">
+  <div class="wrap">
+    <div class="grid g2" style="gap:2rem;align-items:start">
+      <div class="reveal">
+        <span class="eyebrow">Get in touch</span>
+        <h2>Work with us</h2>
+        <p>We welcome enquiries from organisations, researchers and students interested in the SHRMEA framework.</p>
+        <ul class="checklist">
+          <li>Request access to the SHRMEA Assessment Tool (Cross Firm and Cross Department Analysis)</li>
+          <li>Run a sustainable HRM employer–employee audit, or a department benchmark, in your firm</li>
+          <li>Collaborate on research, validation or new industries</li>
+          <li>Invite the team to speak at a workshop or conference</li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <h3>Send an enquiry</h3>
+        <p class="muted">This opens your email app with the message ready to send to the lead researcher.</p>
+        <form id="contact" class="grid" style="gap:.8rem">
+          <label>Your name<br><input name="name" required /></label>
+          <label>Organisation<br><input name="org" /></label>
+          <label>Topic<br><select name="topic"><option>Access to the Assessment Tool</option><option>SHRMEA audit for my organisation</option><option>Research collaboration</option><option>Speaking / workshop</option><option>Other</option></select></label>
+          <label>Message<br><textarea name="msg" rows="4" required></textarea></label>
+          <button class="btn btn-green" type="submit" style="justify-self:start">Open email</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.getElementById("contact").addEventListener("submit", function (e) {
+  e.preventDefault();
+  var f = new FormData(this);
+  var subject = "SHRMEA enquiry: " + f.get("topic");
+  var body = "Name: " + f.get("name") + "\nOrganisation: " + (f.get("org") || "-") + "\n\n" + f.get("msg");
+  location.href = "mailto:hafizi@kptm.edu.my?cc=fadzline@umpsa.edu.my,ashraf@umpsa.edu.my&subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+});
+</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

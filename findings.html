@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Findings &amp; Publications · SHRMEA</title>
+<meta name="description" content="Key findings of the SHRMEA study and a list of related articles and publications." />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f6b45'/%3E%3Cpath d='M7 25C7 14 13 7 26 7c0 12-7 19-17 19' fill='%23a8cf8e'/%3E%3C/svg%3E" />
+</head>
+<body data-page="findings">
+
+<section class="hero small">
+  <div class="wrap">
+    <span class="eyebrow">Findings &amp; publications</span>
+    <h1>What the study found</h1>
+    <p class="lead">Sustainable HRM was strong at the strategic and reporting levels but fragmented in the internal culture on the floor. Every firm’s management rated itself higher than its employees did.</p>
+    <div class="hero-actions"><a class="btn btn-amber" href="#publications">Jump to publications</a></div>
+  </div>
+</section>
+
+<!-- Key findings by RO -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Summary of findings</span>
+      <h2>Four objectives, four answers</h2>
+    </div>
+    <div class="grid g2">
+      <div class="card ro reveal"><div class="badge">RO1</div><div><h3>Employer level</h3><p class="muted">Employers built sustainability into compliance-driven reporting and four practice pillars: Green HRM, Socially Responsible HRM, Triple Bottom Line HRM and Common Good HRM. The last two were applied inconsistently.</p></div></div>
+      <div class="card ro reveal"><div class="badge">RO2</div><div><h3>Employee level</h3><p class="muted">Employees recognised transparent reporting and practices such as green waste management and welfare benefits. They also reported resistance and disengagement driven by cost constraints, decarbonisation pressure and limited awareness.</p></div></div>
+      <div class="card ro reveal"><div class="badge">RO3</div><div><h3>Misalignment across cases</h3><p class="muted">A persistent strategic disconnect. Employer commitment to reporting and sustainability KPIs was undermined by internal culture, leading to inconsistent training, unequal rewards and weak employee buy-in in all three firms.</p></div></div>
+      <div class="card ro reveal"><div class="badge" style="background:var(--amber)">RO4</div><div><h3>The SHRMEA framework</h3><p class="muted">A new diagnostic tool that turns the employer–employee “say–do” gap into a measurable alignment score across 16 indicators, comparable between firms and trackable over time.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Alignment results -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Alignment results</span>
+      <h2>No firm has reached full convergence yet</h2>
+      <p>The sector average is <b id="avg">52.6%</b>. In every firm the employer score is higher than the employee score, so higher alignment comes from rising employer effort rather than from employees catching up.</p>
+    </div>
+    <div class="grid g2" style="gap:1.5rem;align-items:start">
+      <div class="card reveal">
+        <h3>Alignment % by firm</h3>
+        <div id="bars"></div>
+        <div class="table-wrap" style="margin-top:1.2rem;box-shadow:none">
+          <table>
+            <thead><tr><th>Firm</th><th class="c">ER /16</th><th class="c">EE /16</th><th class="c">Total /16</th><th>Main gap</th></tr></thead>
+            <tbody id="firmTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <figure class="card reveal">
+        <h3>Employer–Employee Alignment Framework</h3>
+        <div id="quadrant"></div>
+        <figcaption>Employer effort (ER) is plotted against employee awareness (EE), both out of 16. The diagonal marks perfect alignment.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Firm profiles -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Three firms, three different gaps</span>
+      <h2>Each firm fails differently, so each needs a different fix</h2>
+    </div>
+    <div class="grid g3" id="firmCards"></div>
+  </div>
+</section>
+
+<!-- Misalignment categories -->
+<section class="block alt">
+  <div class="wrap">
+    <div class="grid g2" style="gap:2.5rem;align-items:center">
+      <div class="reveal">
+        <span class="eyebrow">Where misalignment comes from</span>
+        <h2>A failure of transmission, not of goals</h2>
+        <p>Employers and employees both value sustainability. What breaks down are the structures that should carry employer intent into employee practice. Training dominates the 48 coded instances of misalignment.</p>
+        <p class="muted">The return path from employees back to employers is also broken. Few employees read or contribute to the sustainability report, so management never receives the signal that would reveal the gap.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Misalignment categories (coded instances, n = 48)</h3>
+        <div id="cats"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recommended actions -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Practical implications</span>
+      <h2>A multilevel action framework for firms</h2>
+    </div>
+    <div class="grid g4">
+      <div class="card reveal"><span class="pill">Macro · firm</span><h3 style="margin-top:.7rem">Institutionalise participation</h3><p class="muted">Give employees clear roles in waste, reporting, CSR and energy, and set up sustainability committees with real decision-making power.</p></div>
+      <div class="card reveal"><span class="pill" style="--c:var(--amber)">Meso · HR system</span><h3 style="margin-top:.7rem">Link KPIs to performance</h3><p class="muted">Cascade firm-wide sustainability KPIs down to team and individual targets, backed by rewards and recognition.</p></div>
+      <div class="card reveal"><span class="pill" style="--c:var(--blue)">Micro · employee</span><h3 style="margin-top:.7rem">Deepen training</h3><p class="muted">Move from passive compliance briefings to active, problem-solving learning delivered consistently across plants and levels.</p></div>
+      <div class="card reveal"><span class="pill" style="--c:var(--red)">Culture</span><h3 style="margin-top:.7rem">Share ownership</h3><p class="muted">Tell the story through employee examples and feedback loops so sustainability becomes a source of pride, not just a compliance obligation.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Publications -->
+<section class="block alt" id="publications">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Publications &amp; articles</span>
+      <h2>Research outputs</h2>
+      <p>Journal articles, conference papers and writing related to the SHRMEA framework.</p>
+    </div>
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="Search title, author or keyword…" aria-label="Search articles" />
+      <select id="type" aria-label="Filter by type"><option value="">All types</option></select>
+      <select id="year" aria-label="Filter by year"><option value="">All years</option></select>
+    </div>
+    <div id="list" class="grid" style="gap:1rem"></div>
+
+    <details class="help card" style="margin-top:2rem">
+      <summary>Add a new article (for the site owner)</summary>
+      <p class="muted" style="margin-top:1rem">Fill in the form and press <b>Generate</b>. On GitHub, open <code>data/articles.js</code>, click the pencil icon, paste the result on the empty line right after <code>window.SHRMEA_ARTICLES = [</code>, then click <b>Commit changes</b>. The article appears here within 1–2 minutes.</p>
+      <form id="gen" class="grid g2" style="gap:.8rem">
+        <label>Title *<br><input name="title" required style="width:100%" /></label>
+        <label>Authors<br><input name="authors" style="width:100%" value="Ahmad Hafizi Ahmad Giran, Puteri Fadzline Muhamad Tamyez, Muhammad Ashraf Fauri @ Fauzi" /></label>
+        <label>Type<br><select name="type" style="width:100%"><option>Journal article</option><option>Conference paper</option><option>Book chapter</option><option>Article</option><option>News</option><option>Thesis</option></select></label>
+        <label>Status<br><select name="status" style="width:100%"><option>Published</option><option>In press</option><option>Accepted</option><option>Under review</option></select></label>
+        <label>Journal / conference / publisher<br><input name="venue" style="width:100%" /></label>
+        <label>Year<br><input name="year" type="number" style="width:100%" /></label>
+        <label>Link (https://…)<br><input name="link" style="width:100%" /></label>
+        <label>DOI<br><input name="doi" style="width:100%" placeholder="10.xxxx/xxxxx" /></label>
+        <label>PDF path or link<br><input name="pdf" style="width:100%" placeholder="papers/my-paper.pdf" /></label>
+        <label>Tags (comma separated)<br><input name="tags" style="width:100%" placeholder="Sustainable HRM, Green HRM" /></label>
+        <label style="grid-column:1/-1">Abstract / short summary<br><textarea name="abstract" rows="3" style="width:100%"></textarea></label>
+        <label style="grid-column:1/-1">Full text to show on this website (optional; leave a blank line between paragraphs, start a line with ## for a heading)<br><textarea name="body" rows="6" style="width:100%"></textarea></label>
+        <div style="grid-column:1/-1;display:flex;gap:.6rem;flex-wrap:wrap"><button class="btn btn-green" type="submit">Generate</button><button class="btn btn-outline" type="button" id="copy">Copy</button><span id="copied" class="muted" style="align-self:center"></span></div>
+      </form>
+      <pre class="code" id="out" style="margin-top:1rem">// The code to paste will appear here</pre>
+    </details>
+  </div>
+</section>
+
+<script src="data/firms.js"></script>
+<script src="data/articles.js"></script>
+<script>
+(function () {
+  "use strict";
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+
+  /* Firms (from data/firms.js) */
+  var COL = ["var(--green)", "var(--amber)", "var(--blue)", "var(--red)", "#8a5cb8", "#2f9a9a"];
+  var GAPC = { Knowledge: "var(--green)", Incentive: "var(--amber)", Resource: "var(--blue)", Value: "var(--red)" };
+  var F = (window.SHRMEA_FIRMS || []).map(function (f, i) {
+    var er = +f.er || 0, ee = +f.ee || 0, total = (er + ee) / 2;
+    return { f: f, er: er, ee: ee, total: total, pct: total / 16 * 100, col: COL[i % COL.length], gc: GAPC[f.gap] || "var(--green)" };
+  });
+  var avg = F.length ? F.reduce(function (s, x) { return s + x.pct; }, 0) / F.length : 0;
+  document.getElementById("avg").textContent = avg.toFixed(1) + "%";
+  document.getElementById("bars").innerHTML = F.concat([{ f: { name: "Average" }, pct: avg, col: "var(--muted)" }]).map(function (x) {
+    return '<div class="bar-row"><span>' + esc(x.f.name) + '</span><div class="bar"><i style="width:' + x.pct + "%;--c:" + x.col + '"></i></div><span>' + x.pct.toFixed(1) + "%</span></div>";
+  }).join("");
+  document.getElementById("firmTable").innerHTML = F.map(function (x) {
+    return "<tr><td><b>" + esc(x.f.name) + '</b></td><td class="c">' + x.er.toFixed(1) + '</td><td class="c">' + x.ee.toFixed(1) + '</td><td class="c">' + x.total.toFixed(2) + '</td><td><span class="pill" style="--c:' + x.gc + '">' + esc(x.f.gap || "") + "</span></td></tr>";
+  }).join("");
+  document.getElementById("firmCards").innerHTML = F.map(function (x) {
+    return '<div class="card accent-top reveal in" style="--c:' + x.gc + '"><span class="pill" style="--c:' + x.gc + '">' + esc(x.f.name) + " · " + x.pct.toFixed(1) + '%</span><h3 style="margin-top:.8rem">' + esc(x.f.gapLabel || x.f.gap || "") + '</h3><p class="muted">' + esc(x.f.diagnosis || "") + "</p>" + (x.f.fixFirst ? '<p style="margin:0;font-size:.92rem"><b>Fix first:</b> ' + esc(x.f.fixFirst) + "</p>" : "") + "</div>";
+  }).join("");
+
+  /* Misalignment categories */
+  var cats = [["Training issues", 19], ["Disengagement from reporting", 11], ["Poor internal SHRM culture", 10], ["Strategic disconnect in governance", 8]];
+  document.getElementById("cats").innerHTML = cats.map(function (c, i) {
+    var col = ["var(--green)", "var(--amber)", "var(--blue)", "var(--red)"][i];
+    return '<div style="margin:.9rem 0"><div style="display:flex;justify-content:space-between;font-weight:600;font-size:.92rem"><span>' + c[0] + "</span><span>" + c[1] + '</span></div><div class="bar" style="margin-top:.35rem"><i style="width:' + (c[1] / 19 * 100) + "%;--c:" + col + '"></i></div></div>';
+  }).join("");
+
+  /* Quadrant (Figure 4.31) */
+  (function () {
+    var W = 420, P = 46, S = W - P - 16, sc = function (v) { return v / 16 * S; };
+    var X = function (ee) { return P + sc(ee); }, Y = function (er) { return 16 + S - sc(er); };
+    var pts = F.map(function (x) { return [x.f.name, x.ee, x.er, x.col]; });
+    var s = '<svg class="quadrant" viewBox="0 0 ' + W + " " + (W + 10) + '" role="img" aria-label="Quadrant chart of employer effort versus employee awareness">';
+    var q = [[0, 8, "Employer focus only", 0.10], [8, 8, "Strong alignment", 0.16], [0, 0, "Misalignment", 0.06], [8, 0, "Employee focus only", 0.10]];
+    q.forEach(function (z) {
+      s += '<rect x="' + X(z[0]) + '" y="' + Y(z[1] + 8) + '" width="' + sc(8) + '" height="' + sc(8) + '" fill="var(--green)" fill-opacity="' + z[3] + '"/>';
+      s += '<text x="' + (X(z[0]) + 8) + '" y="' + (Y(z[1] + 8) + 18) + '" font-size="11" font-weight="700" fill="var(--muted)">' + z[2] + "</text>";
+    });
+    s += '<rect x="' + P + '" y="16" width="' + S + '" height="' + S + '" fill="none" stroke="var(--line)"/>';
+    s += '<line x1="' + X(0) + '" y1="' + Y(0) + '" x2="' + X(16) + '" y2="' + Y(16) + '" stroke="var(--muted)" stroke-dasharray="5 5"/>';
+    [0, 4, 8, 12, 16].forEach(function (t) {
+      s += '<text x="' + X(t) + '" y="' + (16 + S + 18) + '" font-size="10" text-anchor="middle" fill="var(--muted)">' + t + "</text>";
+      s += '<text x="' + (P - 8) + '" y="' + (Y(t) + 4) + '" font-size="10" text-anchor="end" fill="var(--muted)">' + t + "</text>";
+    });
+    s += '<text x="' + (P + S / 2) + '" y="' + (16 + S + 38) + '" font-size="12" font-weight="700" text-anchor="middle" fill="var(--ink)">Employee awareness (EE)</text>';
+    s += '<text transform="translate(14 ' + (16 + S / 2) + ') rotate(-90)" font-size="12" font-weight="700" text-anchor="middle" fill="var(--ink)">Employer effort (ER)</text>';
+    pts.forEach(function (p) {
+      s += '<circle cx="' + X(p[1]) + '" cy="' + Y(p[2]) + '" r="9" fill="' + p[3] + '" stroke="var(--card)" stroke-width="2.5"><title>' + esc(p[0]) + ": ER " + p[2] + ", EE " + p[1] + "</title></circle>";
+      s += '<text x="' + (X(p[1]) + 13) + '" y="' + (Y(p[2]) + 4) + '" font-size="12" font-weight="800" fill="var(--ink)">' + esc(p[0]) + "</text>";
+    });
+    document.getElementById("quadrant").innerHTML = s + "</svg>";
+  })();
+
+  /* Publications */
+  var A = (window.SHRMEA_ARTICLES || []).slice().sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
+  var types = {}, years = {};
+  A.forEach(function (a) { if (a.type) types[a.type] = 1; if (a.year) years[a.year] = 1; });
+  var tSel = document.getElementById("type"), ySel = document.getElementById("year"), q = document.getElementById("q");
+  Object.keys(types).sort().forEach(function (t) { tSel.insertAdjacentHTML("beforeend", "<option>" + esc(t) + "</option>"); });
+  Object.keys(years).sort().reverse().forEach(function (y) { ySel.insertAdjacentHTML("beforeend", "<option>" + esc(y) + "</option>"); });
+
+  function render() {
+    var term = q.value.trim().toLowerCase(), t = tSel.value, y = ySel.value;
+    var list = A.filter(function (a) {
+      if (t && a.type !== t) return false;
+      if (y && String(a.year) !== y) return false;
+      if (!term) return true;
+      return [a.title, a.authors, a.venue, a.abstract, (a.tags || []).join(" ")].join(" ").toLowerCase().indexOf(term) >= 0;
+    });
+    var el = document.getElementById("list");
+    if (!A.length) { el.innerHTML = '<div class="empty">No articles yet. Use “Add a new article” below to add the first one.</div>'; return; }
+    if (!list.length) { el.innerHTML = '<div class="empty">No articles match your search.</div>'; return; }
+    el.innerHTML = list.map(function (a) {
+      var read = a.body ? "article.html?id=" + encodeURIComponent(a.id || "") : "";
+      var titleHref = read || a.link || (a.doi ? "https://doi.org/" + a.doi : "");
+      var links = "";
+      if (read) links += '<a class="btn btn-green" href="' + read + '">Read</a>';
+      if (a.link) links += '<a class="btn btn-outline" href="' + esc(a.link) + '" target="_blank" rel="noopener">View article</a>';
+      if (a.doi) links += '<a class="btn btn-outline" href="https://doi.org/' + esc(a.doi) + '" target="_blank" rel="noopener">DOI</a>';
+      if (a.pdf) links += '<a class="btn btn-outline" href="' + esc(a.pdf) + '" target="_blank" rel="noopener">PDF</a>';
+      return '<article class="card article"><div>' +
+        '<div class="meta">' + [a.type, a.year, a.status].filter(Boolean).map(esc).join(" · ") + "</div>" +
+        "<h3>" + (titleHref ? '<a href="' + esc(titleHref) + '">' + esc(a.title) + "</a>" : esc(a.title)) + "</h3>" +
+        (a.authors ? '<div class="meta" style="margin:0">' + esc(a.authors) + "</div>" : "") +
+        (a.venue ? '<div class="meta"><i>' + esc(a.venue) + "</i></div>" : "") +
+        (a.abstract ? '<p class="muted" style="margin:0">' + esc(a.abstract) + "</p>" : "") +
+        (a.tags && a.tags.length ? '<div class="tags">' + a.tags.map(function (g) { return '<span class="pill">' + esc(g) + "</span>"; }).join("") + "</div>" : "") +
+        '</div><div class="links">' + links + "</div></article>";
+    }).join("");
+  }
+  [q, tSel, ySel].forEach(function (e) { e.addEventListener("input", render); });
+  render();
+
+  /* Article generator */
+  var form = document.getElementById("gen"), out = document.getElementById("out");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var f = new FormData(form), o = {};
+    var title = (f.get("title") || "").trim();
+    o.id = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "article";
+    ["title", "authors", "type", "venue", "status"].forEach(function (k) { var v = (f.get(k) || "").trim(); if (v) o[k] = v; });
+    var yr = parseInt(f.get("year"), 10); if (yr) o.year = yr;
+    ["abstract", "link", "doi", "pdf"].forEach(function (k) { var v = (f.get(k) || "").trim(); if (v) o[k] = v; });
+    var tags = (f.get("tags") || "").split(",").map(function (s) { return s.trim(); }).filter(Boolean); if (tags.length) o.tags = tags;
+    var body = (f.get("body") || "").trim(); if (body) o.body = body;
+    out.textContent = "  " + JSON.stringify(o, null, 4).replace(/\n/g, "\n  ") + ",\n";
+  });
+  document.getElementById("copy").addEventListener("click", function () {
+    var done = function () { document.getElementById("copied").textContent = "Copied!"; };
+    if (navigator.clipboard) navigator.clipboard.writeText(out.textContent).then(done, function () {});
+  });
+})();
+</script>
+<script src="assets/site.js"></script>
+</body>
+</html>
